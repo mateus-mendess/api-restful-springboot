@@ -1,0 +1,2 @@
+ALTER TABLE product
+ALTER COLUMN quantity SET NOT NULL;
