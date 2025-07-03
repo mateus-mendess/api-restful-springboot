@@ -23,8 +23,9 @@ public class ProductService {
     }
 
     @Transactional
-    public void save(RequestProduct requestProduct) {
-        this.productDAO.save(productMapper.toProduct(requestProduct));
+    public ResponseProduct save(RequestProduct requestProduct) {
+        Product product = this.productDAO.save(productMapper.toProduct(requestProduct));
+        return productMapper.toResponseProduct(product);
     }
 
     public List<ResponseProduct> findAllProducts() {

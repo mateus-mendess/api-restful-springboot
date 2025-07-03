@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -28,8 +29,9 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity createProduct(@RequestBody @Valid RequestProduct requestProduct) {
-        this.productService.save(requestProduct);
-        return ResponseEntity.ok("Produto Cadastrado!");
+        ResponseProduct responseProduct = this.productService.save(requestProduct);
+
+        return ResponseEntity.created(URI.create("/product/"+ responseProduct.getId())).body(responseProduct);
     }
 
     @PutMapping
@@ -41,7 +43,7 @@ public class ProductController {
     @DeleteMapping("/{id}")
     public ResponseEntity deleteProduct(@PathVariable Long id) {
         this.productService.deleteProduct(id);
-        return ResponseEntity.ok("Produto com o ID: "+ id +" deletado.");
+        return ResponseEntity.noContent().build();
     }
 
 }
