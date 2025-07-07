@@ -3,6 +3,7 @@ package com.example.ApiRestFull.domain.service;
 import com.example.ApiRestFull.domain.entity.Product;
 import com.example.ApiRestFull.domain.repository.ProductDAO;
 import com.example.ApiRestFull.dto.request.RequestProduct;
+import com.example.ApiRestFull.dto.request.RequestUpdateProduct;
 import com.example.ApiRestFull.dto.response.ResponseProduct;
 import com.example.ApiRestFull.exception.NotFoundException;
 import com.example.ApiRestFull.mapper.ProductMapper;
@@ -45,6 +46,14 @@ public class ProductService {
         product.setActive(Boolean.parseBoolean(requestProduct.active()));
 
         return productMapper.toResponseProduct(product);
+    }
+
+    @Transactional
+    public void updatePartialProduct(RequestUpdateProduct requestUpdateProduct, Long id) {
+        Product product = productDAO.findById(id).orElseThrow(() ->
+                new NotFoundException("Product with ID:" +id+" not found"));
+
+        productMapper.updateProductFromRequest(requestUpdateProduct, product);
     }
 
     @Transactional

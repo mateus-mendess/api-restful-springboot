@@ -1,6 +1,7 @@
 package com.example.ApiRestFull.handler;
 
 import com.example.ApiRestFull.dto.response.ResponseError;
+import com.example.ApiRestFull.exception.BusinessException;
 import com.example.ApiRestFull.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,5 +16,17 @@ public class GlobalExceptionHandling extends ResponseEntityExceptionHandler {
     public ResponseEntity<ResponseError> handleNotFoundException(NotFoundException exception) {
         ResponseError error = new ResponseError("404", HttpStatus.NOT_FOUND.name(), exception.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
+
+    @ExceptionHandler(NullPointerException.class)
+    public ResponseEntity<ResponseError> handleNullPointerException(NullPointerException exception) {
+        ResponseError error = new ResponseError("400", HttpStatus.BAD_REQUEST.name(), exception.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<ResponseError> handleBusinessException(BusinessException exception) {
+        ResponseError error = new ResponseError("400", HttpStatus.BAD_REQUEST.name(), exception.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 }
