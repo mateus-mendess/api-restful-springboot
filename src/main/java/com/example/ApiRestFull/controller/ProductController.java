@@ -42,7 +42,7 @@ public class ProductController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity patchProduct(@RequestBody RequestUpdateProduct requestUpdateProduct, @PathVariable Long id) {
+    public ResponseEntity patchUpdateProduct(@RequestBody RequestUpdateProduct requestUpdateProduct, @PathVariable Long id) {
         productService.updatePartialProduct(requestUpdateProduct, id);
         return ResponseEntity.ok().build();
     }

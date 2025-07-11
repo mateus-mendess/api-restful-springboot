@@ -1,15 +1,18 @@
 package com.example.ApiRestFull.controller;
 
 import com.example.ApiRestFull.domain.service.UserService;
+import com.example.ApiRestFull.dto.request.RequestUpdateUser;
 import com.example.ApiRestFull.dto.request.RequestUser;
 import com.example.ApiRestFull.dto.response.ResponseUser;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 
-@RestController("/user")
+@RestController
+@RequestMapping("/user")
 public class UserController {
     private final UserService userService;
 
@@ -23,15 +26,21 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity createUser(RequestUser requestUser) {
+    public ResponseEntity createUser(@RequestBody @Valid RequestUser requestUser) {
         ResponseUser responseUser = userService.save(requestUser);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand().toUri();
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(responseUser.getId()).toUri();
         return ResponseEntity.created(uri).body(responseUser);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity updateUser(@RequestBody RequestUser requestUser, @PathVariable Long id) {
         userService.updateUser(requestUser, id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity patchUpdateUser(@RequestBody @Valid RequestUpdateUser requestUpdateUser, @PathVariable Long id) {
+        userService.updatePartialUser(requestUpdateUser, id);
         return ResponseEntity.noContent().build();
     }
 
