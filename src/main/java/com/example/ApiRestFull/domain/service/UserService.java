@@ -1,5 +1,6 @@
 package com.example.ApiRestFull.domain.service;
 
+import com.example.ApiRestFull.domain.entity.Roles;
 import com.example.ApiRestFull.domain.entity.User;
 import com.example.ApiRestFull.domain.repository.UserDAO;
 import com.example.ApiRestFull.dto.request.RequestUpdateUser;
@@ -19,11 +20,15 @@ public class UserService {
     private final UserDAO userDAO;
     private final UserMapper userMapper;
     private final BCryptPasswordEncoder cryptPasswordEncoder;
+    private final RolesService rolesService;
 
-    public UserService (UserDAO userDAO, UserMapper userMapper, BCryptPasswordEncoder cryptPasswordEncoder) {
+    public UserService (UserDAO userDAO, UserMapper userMapper,
+                        BCryptPasswordEncoder cryptPasswordEncoder, RolesService rolesService) {
+
         this.userDAO = userDAO;
         this.userMapper = userMapper;
         this.cryptPasswordEncoder = cryptPasswordEncoder;
+        this.rolesService = rolesService;
     }
 
     public List<ResponseUser> findAllUsers() {
@@ -34,9 +39,11 @@ public class UserService {
     public ResponseUser save(RequestUser requestUser) {
         this.verifyIfUsernameAlreadyExists(requestUser.getUsername());
         this.verifyIfEmailAlreadyExists(requestUser.getEmail());
+        Roles roles = this.rolesService.getRoleByName(requestUser.getRoles());
         requestUser.setPassword(cryptPasswordEncoder.encode(requestUser.getPassword()));
-        User user = userDAO.save(userMapper.toUser(requestUser));
-        return userMapper.toResponseUser(user);
+        User user = userMapper.toUser(requestUser);
+        user.setRoles(roles);
+        return userMapper.toResponseUser(userDAO.save(user));
     }
 
     @Transactional

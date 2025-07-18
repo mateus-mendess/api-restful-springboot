@@ -1,11 +1,14 @@
 package com.example.ApiRestFull.dto.request;
 
+import com.example.ApiRestFull.domain.entity.Roles;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.Set;
 
 
 @Getter
@@ -32,4 +35,7 @@ public class RequestUser {
         @Pattern(regexp = "^[A-Za-zÀ-ÿ]+(?:\\s[A-Za-zÀ-ÿ]+)+$",
                 message = "Nome completo deve conter pelo menos nome e sobrenome, sem números")
         private String fullName;
+
+        @NotBlank
+        private String roles;
 }

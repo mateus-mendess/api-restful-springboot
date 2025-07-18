@@ -8,9 +8,10 @@ import org.mapstruct.*;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {RolesMapper.class})
 public interface UserMapper {
 
+    @Mapping(target = "roles", ignore = true)
     User toUser(RequestUser requestUser);
 
     ResponseUser toResponseUser(User user);

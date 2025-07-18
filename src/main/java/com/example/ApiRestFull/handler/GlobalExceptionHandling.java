@@ -1,6 +1,7 @@
 package com.example.ApiRestFull.handler;
 
 import com.example.ApiRestFull.dto.response.ResponseError;
+import com.example.ApiRestFull.exception.AuthenticationException;
 import com.example.ApiRestFull.exception.BusinessException;
 import com.example.ApiRestFull.exception.NotFoundException;
 import jdk.dynalink.linker.LinkerServices;
@@ -48,4 +49,12 @@ public class GlobalExceptionHandling extends ResponseEntityExceptionHandler {
         ResponseError error = new ResponseError(String.valueOf(status.value()), HttpStatus.BAD_REQUEST.name(), "Erro de formatação nos campos", errors);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<ResponseError> handleAuthenticationException(AuthenticationException exception) {
+        ResponseError error = new ResponseError(String.valueOf(HttpStatus.BAD_REQUEST.value()), HttpStatus.BAD_REQUEST.name(), "Invalid email or password.");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
+
 }

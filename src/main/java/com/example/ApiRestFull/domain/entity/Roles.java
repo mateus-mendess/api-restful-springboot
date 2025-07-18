@@ -1,35 +1,30 @@
 package com.example.ApiRestFull.domain.entity;
 
+import com.example.ApiRestFull.domain.enums.UserRoles;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Set;
+import java.util.List;;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "User")
-@Table(name = "users")
-public class User {
+@Entity
+@Table(name = "roles")
+public class Roles {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String username;
+    @Enumerated(EnumType.STRING)
+    private UserRoles name;
 
-    private String email;
-
-    private String password;
-
-    @Column(name = "full_name")
-    private String fullName;
-
-    @ManyToOne
-    @JoinColumn(name = "id_roles")
-    private Roles roles;
-
+    @OneToMany(mappedBy = "roles")
+    private List<User> users;
 }
+
+
