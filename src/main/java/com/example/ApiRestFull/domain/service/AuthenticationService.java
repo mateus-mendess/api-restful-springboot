@@ -15,8 +15,8 @@ public class AuthenticationService {
         this.authenticationManager = authenticationManager;
     }
 
-    public void authenticationUser(RequestAuthentication requestAuthentication) {
+    public Authentication authenticationUser(RequestAuthentication requestAuthentication) {
         Authentication usernamePassword = new UsernamePasswordAuthenticationToken(requestAuthentication.email(), requestAuthentication.password());
-        authenticationManager.authenticate(usernamePassword);
+        return authenticationManager.authenticate(usernamePassword);
     }
 }

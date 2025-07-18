@@ -4,6 +4,7 @@ import com.example.ApiRestFull.dto.response.ResponseError;
 import com.example.ApiRestFull.exception.AuthenticationException;
 import com.example.ApiRestFull.exception.BusinessException;
 import com.example.ApiRestFull.exception.NotFoundException;
+import com.example.ApiRestFull.exception.TokenGenerationException;
 import jdk.dynalink.linker.LinkerServices;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -54,6 +55,12 @@ public class GlobalExceptionHandling extends ResponseEntityExceptionHandler {
     public ResponseEntity<ResponseError> handleAuthenticationException(AuthenticationException exception) {
         ResponseError error = new ResponseError(String.valueOf(HttpStatus.BAD_REQUEST.value()), HttpStatus.BAD_REQUEST.name(), "Invalid email or password.");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
+    @ExceptionHandler(TokenGenerationException.class)
+    public ResponseEntity<ResponseError> handleTokenGenerationException(TokenGenerationException exception) {
+        ResponseError error = new ResponseError(String.valueOf(HttpStatus.UNAUTHORIZED.value()), HttpStatus.UNAUTHORIZED.name(), exception.getMessage());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
     }
 
 

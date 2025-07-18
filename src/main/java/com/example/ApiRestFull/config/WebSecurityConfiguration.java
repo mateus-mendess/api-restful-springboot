@@ -1,5 +1,6 @@
 package com.example.ApiRestFull.config;
 
+import com.example.ApiRestFull.security.SecurityFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -11,10 +12,17 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfiguration {
+
+    private final SecurityFilter securityFilter;
+
+    public WebSecurityConfiguration(SecurityFilter securityFilter) {
+        this.securityFilter = securityFilter;
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -26,6 +34,7 @@ public class WebSecurityConfiguration {
                         .requestMatchers(HttpMethod.PATCH, "/product/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/product/{id}").hasRole("ADMIN")
                         .anyRequest().permitAll())
+                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
