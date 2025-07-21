@@ -37,3 +37,9 @@ Este projeto foi desenvolvido como **caso de estudo** para consolidar conhecimen
 ```bash
 git clone https://github.com/mateus-mendess/product-api
 cd https://github.com/mateus-mendess/product-api
+```
+2. **Configure o banco de dados PostgreSQL**
+
+Ajuste o arquivo `application.properties` com os dados do seu banco:
+
+![Application Properties](./application_properties.png)
