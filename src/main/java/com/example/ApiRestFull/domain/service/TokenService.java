@@ -4,14 +4,14 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.auth0.jwt.exceptions.TokenExpiredException;
+import com.example.ApiRestFull.exception.InvalidTokenException;
+import com.example.ApiRestFull.exception.TokenGenerationException;
 import com.example.ApiRestFull.security.UserSecurity;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.Date;
 
@@ -33,7 +33,7 @@ public class TokenService {
 
             return token;
         } catch (JWTCreationException exception) {
-            throw new TokenExpiredException("Error while generating JWT");
+            throw new TokenGenerationException("Error while generating token");
         }
     }
 
@@ -47,7 +47,7 @@ public class TokenService {
                     .verify(token)
                     .getSubject();
         } catch (JWTVerificationException exception) {
-            throw new TokenExpiredException("Error while generating JWT");
+            throw new InvalidTokenException("Error with token validation");
         }
     }
 

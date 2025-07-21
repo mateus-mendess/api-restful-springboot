@@ -1,6 +1,7 @@
 package com.example.ApiRestFull.domain.service;
 
 import com.example.ApiRestFull.domain.entity.Roles;
+import com.example.ApiRestFull.domain.enums.UserRoles;
 import com.example.ApiRestFull.domain.repository.RolesDAO;
 import com.example.ApiRestFull.exception.NotFoundException;
 import com.example.ApiRestFull.mapper.RolesMapper;
@@ -18,7 +19,7 @@ public class RolesService {
     }
 
     protected Roles getRoleByName(String name) {
-        return rolesDAO.findByName(name.toUpperCase()).orElseThrow(() ->
+        return rolesDAO.findByName(UserRoles.valueOf(name.toUpperCase())).orElseThrow(() ->
                 new NotFoundException("Role with name "+name+" not found."));
     }
 }

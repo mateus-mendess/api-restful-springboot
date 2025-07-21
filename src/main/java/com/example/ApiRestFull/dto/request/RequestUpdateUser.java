@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class RequestUpdateUser{
-        @Size(min = 5, max = 30, message = "Username deve ter entre 3 e 20 caracteres")
+        @Size(min = 5, max = 30, message = "Username deve ter entre 5 e 30 caracteres")
         @Pattern(regexp = "^[a-zA-Z0-9._]+$",
                 message = "Username pode conter apenas letras, números, ponto e underline")
         private String username;

@@ -22,8 +22,7 @@ public class UserService {
     private final BCryptPasswordEncoder cryptPasswordEncoder;
     private final RolesService rolesService;
 
-    public UserService (UserDAO userDAO, UserMapper userMapper,
-                        BCryptPasswordEncoder cryptPasswordEncoder, RolesService rolesService) {
+    public UserService (UserDAO userDAO, UserMapper userMapper, BCryptPasswordEncoder cryptPasswordEncoder, RolesService rolesService) {
 
         this.userDAO = userDAO;
         this.userMapper = userMapper;

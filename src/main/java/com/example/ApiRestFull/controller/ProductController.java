@@ -31,7 +31,7 @@ public class ProductController {
     @PostMapping
     public ResponseEntity createProduct(@RequestBody @Valid RequestProduct requestProduct) {
         ResponseProduct responseProduct = this.productService.save(requestProduct);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(responseProduct.getId()).toUri();
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(responseProduct.id()).toUri();
         return ResponseEntity.created(uri).body(responseProduct);
     }
 

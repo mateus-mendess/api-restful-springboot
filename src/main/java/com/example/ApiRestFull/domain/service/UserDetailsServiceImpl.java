@@ -1,6 +1,5 @@
 package com.example.ApiRestFull.domain.service;
 
-import com.example.ApiRestFull.domain.entity.User;
 import com.example.ApiRestFull.domain.repository.UserDAO;
 import com.example.ApiRestFull.security.UserSecurity;
 import org.springframework.security.core.userdetails.UserDetails;

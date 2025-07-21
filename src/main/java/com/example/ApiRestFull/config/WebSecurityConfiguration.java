@@ -30,10 +30,13 @@ public class WebSecurityConfiguration {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.POST, "/product").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PATCH, "/product/{id}").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/product/{id}").hasRole("ADMIN")
-                        .anyRequest().permitAll())
+                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/user").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/user/{id}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/product").hasRole("MODERATOR")
+                        .requestMatchers(HttpMethod.PATCH, "/product/{id}").hasRole("MODERATOR")
+                        .requestMatchers(HttpMethod.DELETE, "/product/{id}").hasRole("MODERATOR")
+                        .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }

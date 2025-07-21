@@ -1,6 +1,5 @@
 package com.example.ApiRestFull.controller;
 
-import com.example.ApiRestFull.domain.entity.User;
 import com.example.ApiRestFull.domain.service.AuthenticationService;
 import com.example.ApiRestFull.domain.service.TokenService;
 import com.example.ApiRestFull.dto.request.RequestAuthentication;
