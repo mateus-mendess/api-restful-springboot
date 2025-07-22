@@ -42,4 +42,64 @@ cd https://github.com/mateus-mendess/product-api
 
 Ajuste o arquivo `application.properties` com os dados do seu banco:
 
-![Application Properties](./application_properties.png)
+```bash
+spring.application.name=ApiRestFull
+
+#DATABASE
+spring.datasource.url= ${DB_URL}
+spring.datasource.username= ${DB_USER}
+spring.datasource.password= ${DB_PASSWORD}
+spring.datasource.driver-class-name= org.postgresql.Driver
+
+#JPA + HIBERNATE
+spring.jpa.properties.hibernate.dialect= org.hibernate.dialect.PostgreSQLDialect
+spring.jpa.hibernate.ddl-auto= none
+
+#JWT
+api.security.token.secret = ${JWT_SECRET}
+```
+
+3. **Execute a aplicação**
+
+A aplicação estará disponível em: `http://localhost:8080`
+
+## 🔐 Autenticação com JWT
+
+A autenticação segue o padrão stateless com token JWT. Para acessar os endpoints protegidos:
+
+1. **Faça login com seu usuário no endpoint `/auth/login`**
+
+```bash
+{
+  "email": "mateus.mendes@example.com",
+  "password": "mendes123@"
+}
+```
+2. **Receba o token JWT**
+
+```bash
+{
+  "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2FvLnNpbHZhQGV4YW1wbG
+  UuY29tIiwiaXNzIjoiYXBpLXJlc3QtZnVsbCIsImV4cCI6MTc1MzE0OD
+  MzNH0.wZYbziDON-aSm45WOJnLdsNog9pt0Cg3wfY9UX860qM"
+}
+```
+3. **Envie o token no cabeçalho Authorization em cada requisição:**
+
+```bash
+  Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2FvLnNpbHZhQGV4YW1wbG
+  UuY29tIiwiaXNzIjoiYXBpLXJlc3QtZnVsbCIsImV4cCI6MTc1MzE0OD
+  MzNH0.wZYbziDON-aSm45WOJnLdsNog9pt0Cg3wfY9UX860qM
+```
+
+## 📌 Observações
+Projeto com foco no back-end e boas práticas.
+
+Nenhum frontend foi implementado.
+
+Toda a estrutura segue o padrão MVC (Model-View-Controller).
+
+Código documentado, com DTOs separados para request/response.
+
+## ✍️ Autor
+Desenvolvido por **Mateus Mendes** – projeto de estudo pessoal.
