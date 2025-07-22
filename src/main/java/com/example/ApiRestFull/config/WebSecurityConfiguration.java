@@ -33,9 +33,9 @@ public class WebSecurityConfiguration {
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/user").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/user/{id}").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/product").hasRole("MODERATOR")
-                        .requestMatchers(HttpMethod.PATCH, "/product/{id}").hasRole("MODERATOR")
-                        .requestMatchers(HttpMethod.DELETE, "/product/{id}").hasRole("MODERATOR")
+                        .requestMatchers(HttpMethod.POST, "/product").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PATCH, "/product/{id}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/product/{id}").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
