@@ -35,8 +35,8 @@ Este projeto foi desenvolvido como **caso de estudo** para consolidar conhecimen
 
 1. **Clone o repositório**
 ```bash
-git clone https://github.com/mateus-mendess/product-api
-cd https://github.com/mateus-mendess/product-api
+git clone https://github.com/mateus-mendess/api-restful-springboot
+cd https://github.com/mateus-mendess/api-restful-springboot
 ```
 2. **Configure o banco de dados PostgreSQL**
 
