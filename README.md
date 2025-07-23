@@ -92,14 +92,88 @@ A autenticação segue o padrão stateless com token JWT. Para acessar os endpoi
   MzNH0.wZYbziDON-aSm45WOJnLdsNog9pt0Cg3wfY9UX860qM
 ```
 
+## 🧠 Sobre o Projeto:
+
+**🧱 Arquitetura Utilizada**
+
+A aplicação segue a arquitetura MVC (Model-View-Controller) com camadas bem definidas. Abaixo está a estrutura de pacotes do projeto:
+```bash
+src/
+├── config             # Configurações gerais (segurança, CORS, JWT, etc)
+├── controller         # Responsável pelas requisições HTTP e regras de roteamento
+├── domain             # Domínio principal do sistema
+│   ├── entity         # Entidades do banco de dados (JPA Entities)
+│   ├── enums          # Enumerações utilizadas no sistema
+│   ├── repository     # Interfaces JPA para acesso aos dados
+│   └── service        # Regras de negócio relacionadas ao domínio
+├── dto                # Data Transfer Objects (request/response)
+│   ├── request        # Objetos usados para entrada de dados (POST, PUT)
+│   └── response       # Objetos usados para saída de dados (GET)
+├── exception          # Definições de exceções customizadas
+├── handler            # Manipuladores globais de exceções (ControllerAdvice)
+├── mapper             # Interfaces MapStruct para conversão entre DTO e Entity
+├── security           # Filtros, tokens, autenticação e autorização
+
+```
+
+**📐 Diagrama de Entidade e Relacionamento (ERD)**
+
+A base do projeto é composta pelas entidades `User`, `Roles` e `Product`, com o relacionamento mais relevante sendo:
+
+```bash
+User (N) --- (1) Roles
+```
+
+Cada usuário está associado a um papel (role) que define suas permissões no sistema. Por outro lado, um único papel pode estar vinculado a vários usuários.
+
+**🧾 Separação de DTOs**
+
+Para garantir clareza e segurança na troca de dados com a API, o projeto separa os DTOs em duas categorias:
+
+`Request DTOs` – usados para entrada de dados (evitam que campos desnecessários ou sensíveis sejam enviados)
+
+`Response DTOs` – usados para saída de dados (evitam expor senhas, IDs técnicos ou atributos internos)
+
+Exemplos:
+
+```bash
+UserRequestDTO / UserResponseDTO
+
+ProductRequestDTO / ProductResponseDTO
+```
+A conversão entre DTOs e entidades é feita com `MapStruct`, o que garante código limpo, rápido e sem boilerplate.
+
+**🔐 Configuração de Segurança (Spring Security)**
+
+A segurança da API é baseada no padrão stateless, utilizando tokens JWT (JSON Web Token) para autenticação e autorização. Todas as configurações de segurança são centralizadas no método `securityFilterChain(HttpSecurity httpSecurity)`.
+
+```bash
+@Bean
+public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+    return httpSecurity
+            .csrf(csrf -> csrf.disable())
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .authorizeHttpRequests(auth -> auth
+                    .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/user").hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.DELETE, "/user/{id}").hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.POST, "/product").hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.PATCH, "/product/{id}").hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.DELETE, "/product/{id}").hasRole("ADMIN")
+                    .anyRequest().authenticated())
+            .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
+            .build();
+}
+```
+Observação:
+As autorizações configuradas nas rotas, bem como os papéis atribuídos a cada operação, não seguem necessariamente um padrão de projeto ideal. Essa estrutura foi definida apenas para fins didáticos, com o objetivo de estudar o funcionamento do Spring Security, controle de acesso com base em papéis e autenticação via JWT.
+
+
 ## 📌 Observações
-Projeto com foco no back-end e boas práticas.
+-  Projeto com foco no back-end e boas práticas.
+-  Nenhum frontend foi implementado.
+-  Para testar a API, utilize o Postman, Insomnia ou qualquer outro software similar de client HTTP.
 
-Nenhum frontend foi implementado.
-
-Toda a estrutura segue o padrão MVC (Model-View-Controller).
-
-Código documentado, com DTOs separados para request/response.
 
 ## ✍️ Autor
 Desenvolvido por **Mateus Mendes** – projeto de estudo pessoal.
